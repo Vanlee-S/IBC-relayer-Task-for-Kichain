@@ -72,16 +72,20 @@ rly chains list
 0: testnet-croeseid-4   -> key(✔) bal(✔) light(✔) path(✔)  
 1: kichain-t-4          -> key(✔) bal(✔) light(✔) path(✔)  
 
-#### 11. Trying to open channels relayers:  
+#### 11. Create a tunnel between the two networks:  
+rly paths generate testnet-croeseid-4 kichain-t-3 transfer --port=transfer
+
+#### 12. Checking the created channel:
+rly paths list -d  
+0: transfer -> chns(✔) clnts(✔) conn(✔) chan(✔) (testnet-croeseid-4:transfer<>kichain-t-4:transfer)  
+*If you are lucky and you see this conclusion, then skip step 13*
+
+#### 13. Trying to open channels relayers:  
 rly tx link transfer  
 *Example:  
 ★ Channel created: [testnet-croeseid-4]chan{channel-13}port{transfer} -> [kichain-t-4]chan{channel-37}port{transfer}* 
 
-#### 12. Checking the created channel:
-rly paths list -d  
-0: transfer -> chns(✔) clnts(✔) conn(✔) chan(✔) (testnet-croeseid-4:transfer<>kichain-t-4:transfer)
-
-#### 13. Try send tokens from Croeseid to KiChain and back:  
+#### 14. Try send tokens from Croeseid to KiChain and back:  
 rly tx transfer [src-chain-id] [dst-chain-id] [amount] [dst-addr] [flags]  
 
 rly tx transfer testnet-croeseid-4 kichain-t-4 10000basetcro tki1neuk5fhrv95wx8lld8lpf0cunxjukl59q2y3kt --path transfer -d  
@@ -92,7 +96,7 @@ rly tx transfer kichain-t-4 testnet-croeseid-4 100000utki tcro1fes4lqj23vnrkqqu6
 hash(712064649D270627FF7EFC2A9E3F856792C56B5647F05AC4C8A268CF07BFF680)  
 https://ki.thecodes.dev/tx/712064649D270627FF7EFC2A9E3F856792C56B5647F05AC4C8A268CF07BFF680  
 
-#### 14. To maintain the operation of the relayer, we will create a service file:  
+#### 15. To maintain the operation of the relayer, we will create a service file:  
 sudo tee /etc/systemd/system/rlyd.service > /dev/null <<EOF  
 [Unit]  
 Description=relayer client  
@@ -107,12 +111,12 @@ After=network-online.target, KiChain.service
                                                             WantedBy=multi-user.target  
                                                             EOF
 
-#### 15. We start the service file                                              
+#### 16. We start the service file                                              
 sudo systemctl daemon-reload  
 sudo systemctl enable rlyd  
 sudo systemctl start rlyd 
 
-#### 16. To check the logs of the relay, use:  
+#### 17. To check the logs of the relay, use:  
 journalctl -u rlyd -f
 
 
