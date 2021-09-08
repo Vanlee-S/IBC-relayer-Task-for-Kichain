@@ -79,8 +79,8 @@ rly paths generate testnet-croeseid-4 kichain-t-3 transfer --port=transfer
 rly paths list -d  
 0: transfer -> chns(✔) clnts(✔) conn(✔) chan(✔) (testnet-croeseid-4:transfer<>kichain-t-4:transfer)  
 *If you are lucky and you see this conclusion, then skip step 13  
-0: transfer             -> chns(✔) clnts(x) conn(x) chan(x)  
-If your output looks something like this - then we perform step 13*
+If your output looks something like this - then we perform step 13  
+0: transfer             -> chns(✔) clnts(x) conn(x) chan(x)*
 
 #### 13. Trying to open channels relayers:  
 rly tx link transfer  
